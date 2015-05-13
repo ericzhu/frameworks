@@ -27,7 +27,6 @@ public class UserApp3 extends BaseApp {
 		address.setZipCode("1A1 W2W");
 		
 		u.setAddress(address);
-		
 
 		session.save(u);
 	}
