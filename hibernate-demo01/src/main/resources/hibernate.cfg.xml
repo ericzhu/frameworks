@@ -21,5 +21,6 @@
 
 		<mapping class="com.ez.banking.entity.User" />
 		<mapping class="com.ez.banking.entity.TimeTest"/>
+		<mapping class="com.ez.banking.entity.Bank"/>
 	</session-factory>
 </hibernate-configuration>

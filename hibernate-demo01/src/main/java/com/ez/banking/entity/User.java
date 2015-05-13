@@ -4,8 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,13 +28,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_ID")
-	//---------------- SEQUENCE GENERATION STARTEGY ----------------
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_seq")
-	//@SequenceGenerator(name="user_seq", sequenceName="USER_ID_SEQ")
-	
-	//---------------- TABLE GENERATION STARTEGY ----------------
-	//@GeneratedValue(strategy = GenerationType.TABLE, generator="user_table_generator")
-	//@TableGenerator(name = "user_table_generator", pkColumnName="PK_NAME", pkColumnValue="PK_VALUE")
+	// ---------------- SEQUENCE GENERATION STARTEGY ----------------
+	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_seq")
+	// @SequenceGenerator(name="user_seq", sequenceName="USER_ID_SEQ")
+	// ---------------- TABLE GENERATION STARTEGY ----------------
+	// @GeneratedValue(strategy = GenerationType.TABLE,
+	// generator="user_table_generator")
+	// @TableGenerator(name = "user_table_generator", pkColumnName="PK_NAME",
+	// pkColumnValue="PK_VALUE")
 	private Long userId;
 
 	@Column(name = "FIRST_NAME")
@@ -44,6 +48,11 @@ public class User {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "BIRTH_DATE", nullable = false)
 	private Date birthDate;
+
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "addressLine1", column = @Column(name = "USER_ADDRESS_LINE_1")),
+		@AttributeOverride(name = "addressLine2", column = @Column(name = "USER_ADDRESS_LINE_2"))})
+	private Address address;
 
 	@Column(name = "EMAIL_ADDRESS")
 	private String emailAddress;
@@ -59,10 +68,10 @@ public class User {
 
 	@Column(name = "CREATED_BY", updatable = false)
 	private String createdBy;
-	
+
 	@Transient
 	private boolean valid;
-	
+
 	@Formula("lower(datediff(curdate(), birth_date)/365)")
 	private int age;
 
@@ -152,5 +161,13 @@ public class User {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
