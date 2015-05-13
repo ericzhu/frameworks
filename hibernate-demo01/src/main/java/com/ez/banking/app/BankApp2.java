@@ -29,6 +29,8 @@ public class BankApp2 extends BaseApp {
 		bank.getContacts().add("John Doe");
 		bank.getContacts().add("Foo Bar");
 		
+		bank.getAdmins().put("MANAGER", "John");
+		bank.getAdmins().put("TELLER", "Stephanie");
 		session.save(bank);
 		
 	}

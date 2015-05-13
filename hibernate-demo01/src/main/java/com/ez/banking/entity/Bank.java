@@ -2,7 +2,9 @@ package com.ez.banking.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -15,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,10 +56,16 @@ public class Bank {
 	private String createdBy;
 
 	@ElementCollection
-	@CollectionTable(name="BANK_CONTACT", joinColumns=@JoinColumn(name="BANK_ID"))
+	@CollectionTable(name = "BANK_CONTACT", joinColumns = @JoinColumn(name = "BANK_ID"))
 	@Column(name = "NAME")
 	private List<String> contacts = new ArrayList<String>();
-	
+
+	@ElementCollection
+	@CollectionTable(name = "BANK_ADMIN", joinColumns = @JoinColumn(name = "BANK_ID"))
+	@MapKeyColumn(name = "POSITION_TYPE")
+	@Column(name = "NAME")
+	private Map<String, String> admins = new HashMap<String, String>();
+
 	public Long getBankId() {
 		return bankId;
 	}
@@ -163,5 +172,9 @@ public class Bank {
 
 	public List<String> getContacts() {
 		return contacts;
+	}
+
+	public Map<String, String> getAdmins() {
+		return admins;
 	}
 }

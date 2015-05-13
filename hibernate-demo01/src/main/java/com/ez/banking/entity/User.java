@@ -1,18 +1,23 @@
 package com.ez.banking.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,8 +56,14 @@ public class User {
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "addressLine1", column = @Column(name = "USER_ADDRESS_LINE_1")),
-		@AttributeOverride(name = "addressLine2", column = @Column(name = "USER_ADDRESS_LINE_2"))})
+			@AttributeOverride(name = "addressLine2", column = @Column(name = "USER_ADDRESS_LINE_2")) })
 	private Address address;
+
+	@ElementCollection
+	@CollectionTable(name = "USER_OFFICE", joinColumns = @JoinColumn(name = "USER_ID"))
+	@AttributeOverrides({ @AttributeOverride(name = "addressLine1", column = @Column(name = "USER_ADDRESS_LINE_1")),
+		@AttributeOverride(name = "addressLine2", column = @Column(name = "USER_ADDRESS_LINE_2")) })
+	private List<Address> offices = new ArrayList<Address>();
 
 	@Column(name = "EMAIL_ADDRESS")
 	private String emailAddress;
@@ -169,5 +180,9 @@ public class User {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public List<Address> getOffices() {
+		return offices;
 	}
 }
